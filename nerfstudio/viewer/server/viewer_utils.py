@@ -44,9 +44,13 @@ def get_viewer_url(websocket_port: int) -> str:
     Returns:
         URL to the viewer
     """
+    viewer_url = "https://viewer.nerf.studio"
+    if os.environ["NERFSTUDIO_VIEWER_URL"]:
+        # Check if we want to manually overwrite `viewer_url`
+        viewer_url = os.environ["NERFSTUDIO_VIEWER_URL"]
     version = get_viewer_version()
     websocket_url = f"ws://localhost:{websocket_port}"
-    return f"https://viewer.nerf.studio/versions/{version}/?websocket_url={websocket_url}"
+    return f"{viewer_url}/versions/{version}/?websocket_url={websocket_url}"
 
 
 class IOChangeException(Exception):
